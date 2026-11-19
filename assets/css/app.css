@@ -1,0 +1,1458 @@
+/* ==============================================================================
+   SISTEM INFORMASI PENGELOLAAN PANGKALAN GAS LPG KOTA PALU
+   Mobile-First Responsive Design System (Breakpoints: 640px, 1024px, 1280px)
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Palet Warna Utama: Deep Petrol Teal & Flame Amber */
+  --color-primary: #0e4a5a;
+  --color-primary-hover: #093743;
+  --color-primary-light: #e6f2f5;
+  --color-primary-border: #bce0e6;
+  
+  --color-flame: #d97706;
+  --color-flame-hover: #b45309;
+  --color-flame-light: #fef3c7;
+  --color-flame-text: #92400e;
+
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-success-light: #ecfdf5;
+  --color-success-text: #065f46;
+  
+  --color-warning: #d97706;
+  --color-warning-light: #fffbeb;
+  --color-warning-text: #92400e;
+  
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-light: #fef2f2;
+  --color-danger-text: #991b1b;
+  
+  --color-info: #0284c7;
+  --color-info-light: #f0f9ff;
+  --color-info-text: #075985;
+
+  /* Netral Hangat */
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --bg-muted: #e2e8f0;
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+
+  /* Radius & Shadows */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  --shadow-dropdown: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-modal: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+
+  /* Touch & Layout Targets (Mobile-First) */
+  --touch-target-min: 44px;
+  --sidebar-width: 270px;
+  --topbar-height: 58px;
+  --transition-fast: 180ms ease-in-out;
+}
+
+/* ==============================================================================
+   1. RESET & DASAR (Pencegahan Overflow Layar HP 360px)
+   ============================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Mencegah scroll horizontal halaman secara mutlak */
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Angka Tabular untuk data kuantitatif, nominal & stok */
+.tabular-nums, .num, td.num, th.num, .amount {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==============================================================================
+   2. MOBILE-FIRST BASE LAYOUT (< 640px)
+   ============================================================================== */
+.app-layout {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Sidebar sebagai Drawer di HP */
+.app-sidebar {
+  width: min(var(--sidebar-width), 84vw);
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  transform: translateX(-100%);
+  transition: transform var(--transition-fast);
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.15);
+}
+
+.app-sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 45;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.sidebar-backdrop.show {
+  display: block;
+  opacity: 1;
+}
+
+.sidebar-header {
+  height: var(--topbar-height);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-main);
+  min-height: var(--touch-target-min);
+}
+
+.brand-logo svg, .brand-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.2px;
+}
+
+.brand-city {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tombol Tutup Drawer di HP */
+.sidebar-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.sidebar-close-btn:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 10px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nav-section-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-subtle);
+  padding: 10px 10px 4px 10px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  min-height: var(--touch-target-min); /* Touch target nyaman di HP */
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  background-color: var(--bg-subtle);
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  font-weight: 600;
+}
+
+.nav-link svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-surface);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13.5px;
+  flex-shrink: 0;
+}
+
+.user-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.user-role-admin {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.user-role-pemilik {
+  background-color: var(--color-flame-light);
+  color: var(--color-flame-text);
+}
+
+/* Area Konten Utama */
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Topbar Mobile */
+.app-topbar {
+  height: var(--topbar-height);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: 100%;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mobile-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--bg-subtle);
+}
+
+.topbar-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Sembunyikan tanggal di layar HP < 640px agar tidak sesak */
+.datetime-display {
+  display: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  align-items: center;
+  gap: 6px;
+}
+
+/* Area Konten Halaman */
+.app-content {
+  padding: 16px 12px;
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  overflow-x: hidden;
+}
+
+.content-header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.page-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+.page-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.page-actions .btn {
+  flex: 1;
+}
+
+/* Banner Peringatan Stok Menipis */
+.alert-banner {
+  background-color: var(--color-warning-light);
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  color: var(--color-warning-text);
+}
+
+.alert-banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.alert-banner svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Kartu Ringkasan (Dashboard Stat Cards) - 1 Kolom di HP */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 kolom di HP < 640px */
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stat-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+
+.stat-subtext {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Card Container */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.card-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-body.p-0 {
+  padding: 0;
+}
+
+.card-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-light);
+  background-color: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+/* ==============================================================================
+   3. TABEL DATA BESAR (Horizontal Smooth Scrollable & Touch-Friendly)
+   ============================================================================== */
+.table-responsive {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+}
+
+.table-custom {
+  width: 100%;
+  min-width: 600px; /* Memastikan tabel tidak gepeng di layar 360px */
+  border-collapse: collapse;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.table-custom th {
+  background: #f8fafc;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.table-custom td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.table-custom tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.table-custom tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-success { background-color: var(--color-success-light); color: var(--color-success-text); border: 1px solid #a7f3d0; }
+.badge-warning { background-color: var(--color-warning-light); color: var(--color-warning-text); border: 1px solid #fde68a; }
+.badge-danger  { background-color: var(--color-danger-light); color: var(--color-danger-text); border: 1px solid #fecaca; }
+.badge-info    { background-color: var(--color-info-light); color: var(--color-info-text); border: 1px solid #bae6fd; }
+.badge-neutral { background-color: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-light); }
+
+/* ==============================================================================
+   4. FORMULIR & TOMBOL (Minimal Tinggi 44px - Touch Friendly)
+   ============================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--touch-target-min); /* Minimal 44px agar mudah disentuh */
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  line-height: 1.3;
+}
+
+.btn:disabled, .btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--text-main);
+  border-color: var(--border-medium);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-subtle);
+  border-color: #94a3b8;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+  border-color: var(--color-danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-danger-hover);
+}
+
+.btn-danger-ghost {
+  background-color: transparent;
+  color: var(--color-danger);
+  border-color: transparent;
+}
+
+.btn-danger-ghost:hover {
+  background-color: var(--color-danger-light);
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.form-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.form-label .required {
+  color: var(--color-danger);
+}
+
+/* Input Minimal Tinggi 44px & Ukuran Font 15px (Mencegah Zoom iOS) */
+.form-control {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 9px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+textarea.form-control {
+  min-height: 80px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(14, 74, 90, 0.12);
+}
+
+.form-control[readonly], .form-control:disabled {
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.form-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.form-error {
+  font-size: 11.5px;
+  color: var(--color-danger);
+  margin-top: 4px;
+}
+
+/* Form Row Default 1 Kolom di HP */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 kolom di HP */
+  gap: 12px;
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .form-actions {
+    flex-direction: row;
+    width: auto;
+  }
+}
+
+/* Split Grid untuk Dual Panel Dashboard */
+.split-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Chart Canvas Wrapper Responsif */
+.chart-wrapper {
+  position: relative;
+  height: 220px; /* Tinggi proporsional di HP */
+  width: 100%;
+}
+
+/* Toolbar & Filter Form Responsif */
+.filter-form, .filter-toolbar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.filter-form-group {
+  width: 100%;
+}
+
+.date-range-group {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Toolbar Pencarian & Filter */
+.table-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-subtle);
+}
+
+.search-box input {
+  padding-left: 36px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.page-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+}
+
+.page-item:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.page-item.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 36px 16px;
+  color: var(--text-muted);
+}
+
+.empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+  color: var(--text-subtle);
+  margin-bottom: 10px;
+}
+
+.empty-state h4 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  font-size: 12.5px;
+  max-width: 280px;
+  margin: 0 auto 14px;
+}
+
+/* ==============================================================================
+   5. NOTIFIKASI TOAST & MODAL KUSTOM DI HP
+   ============================================================================== */
+#toast-container {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-dropdown);
+  animation: slideIn 200ms ease-out forwards;
+}
+
+.toast.toast-success { border-left: 4px solid var(--color-success); }
+.toast.toast-danger  { border-left: 4px solid var(--color-danger); }
+.toast.toast-warning { border-left: 4px solid var(--color-warning); }
+.toast.toast-info    { border-left: 4px solid var(--color-info); }
+
+.toast-body {
+  flex: 1;
+  font-size: 12.5px;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal Konfirmasi Hapus */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  padding: 14px;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+  animation: modalPop 180ms ease-out forwards;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  padding: 16px 18px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.modal-icon-danger {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.modal-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.modal-footer {
+  padding: 12px 18px;
+  background-color: #f8fafc;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-footer .btn {
+  flex: 1;
+}
+
+/* ==============================================================================
+   6. STRUK PENJUALAN / NOTA RESI
+   ============================================================================== */
+.receipt-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 18px 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.receipt-header {
+  text-align: center;
+  border-bottom: 1px dashed var(--border-medium);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+
+.receipt-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 2px;
+}
+
+.receipt-address {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.receipt-table {
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.receipt-table th {
+  text-align: left;
+  border-bottom: 1px dashed var(--border-medium);
+  padding: 6px 0;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.receipt-table td {
+  padding: 6px 0;
+}
+
+.receipt-total-row {
+  border-top: 1px dashed var(--border-medium);
+  padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* ==============================================================================
+   7. HALAMAN LOGIN (Mobile-First 360px)
+   ============================================================================== */
+.login-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+  padding: 16px 12px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+}
+
+.login-brand-panel {
+  display: none; /* Sembunyikan panel besar di HP */
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-form-panel {
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.login-form-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.login-form-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.demo-account-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-top: 20px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.demo-account-box strong {
+  color: var(--text-main);
+}
+
+/* ==============================================================================
+   8. BREAKPOINT TABLET (min-width: 640px)
+   ============================================================================== */
+@media (min-width: 640px) {
+  .app-content {
+    padding: 20px 18px;
+  }
+
+  .content-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-actions .btn {
+    flex: initial;
+  }
+
+  /* 2 Kolom untuk Kartu Statistik di Tablet */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  /* 2 Kolom untuk Formulir */
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .card-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-footer .btn {
+    flex: initial;
+  }
+
+  .datetime-display {
+    display: flex;
+  }
+
+  .receipt-wrapper {
+    max-width: 380px;
+    padding: 24px;
+  }
+
+  .chart-wrapper {
+    height: 260px;
+  }
+
+  .filter-form, .filter-toolbar-form {
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .filter-form-group {
+    flex: 1;
+    min-width: 180px;
+    width: auto;
+  }
+
+  .date-range-group {
+    width: auto;
+  }
+
+  #toast-container {
+    left: auto;
+    right: 20px;
+    top: 20px;
+    width: auto;
+    max-width: 400px;
+  }
+}
+
+/* ==============================================================================
+   9. BREAKPOINT DESKTOP (min-width: 1024px)
+   ============================================================================== */
+@media (min-width: 1024px) {
+  .app-sidebar {
+    transform: translateX(0);
+    width: var(--sidebar-width);
+    box-shadow: none;
+  }
+
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .sidebar-close-btn {
+    display: none !important;
+  }
+
+  .app-main {
+    margin-left: var(--sidebar-width);
+  }
+
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  .app-topbar {
+    padding: 0 24px;
+  }
+
+  .app-content {
+    padding: 24px;
+  }
+
+  /* 4 Kolom untuk Kartu Statistik di Layar Desktop */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  /* 2 Kolom untuk Split Grid di Dashboard */
+  .split-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Halaman Login 2-Kolom Penuh */
+  .login-container {
+    flex-direction: row;
+    max-width: 880px;
+  }
+
+  .login-brand-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 44px;
+  }
+
+  .login-brand-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  .login-brand-desc {
+    font-size: 13.5px;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+
+  .login-badges-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .login-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #e2e8f0;
+  }
+
+  .login-form-panel {
+    flex: 1;
+    padding: 44px;
+  }
+}
+
+/* ==============================================================================
+   10. BREAKPOINT DESKTOP BESAR (min-width: 1280px)
+   ============================================================================== */
+@media (min-width: 1280px) {
+  .app-content {
+    padding: 28px 32px;
+    max-width: 1540px;
+  }
+
+  .stats-grid {
+    gap: 20px;
+  }
+}
+
+/* ==============================================================================
+   11. CETAK / PRINT STYLESHEET
+   ============================================================================== */
+@media print {
+  .app-sidebar,
+  .app-topbar,
+  .sidebar-backdrop,
+  .page-actions,
+  .table-toolbar,
+  .card-footer,
+  .alert-banner,
+  .btn,
+  #toast-container,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  .app-main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .app-content {
+    padding: 0 !important;
+  }
+
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  .table-custom {
+    min-width: 100% !important;
+  }
+
+  .table-custom th,
+  .table-custom td {
+    border-color: #ccc !important;
+    padding: 6px 8px !important;
+  }
+
+  .receipt-wrapper {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+  }
+}
+
+.print-header {
+  display: none;
+}
